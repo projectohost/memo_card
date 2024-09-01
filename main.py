@@ -30,7 +30,6 @@ def testlist():
     frm = Question('Число', 'number', 'digit', 'amount', 'summary')
     questions_listmodel.form_list.append(frm)
 
-
 ######################################     Проведення тесту    #############################################
 '''Підключення всіх екранів до тесту'''
 def set_card():
@@ -121,6 +120,10 @@ def connects():
     btn_Menu.clicked.connect(back_to_menu) 
     timer.timeout.connect(show_card) 
     btn_Sleep.clicked.connect(sleep_card) 
+
+######################################     Проведення тесту    #############################################
+# Підключення всіх екранів =>
+
 
 testlist()
 set_card()
