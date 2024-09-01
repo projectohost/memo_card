@@ -21,7 +21,7 @@ win_main = QWidget()
 
 def testlist(): 
     
-    frm = Question('Столиця України??', 'apple', 'Kyiv', 'Lviv', 'Kharkiv')
+    frm = Question('Столиця України??', 'будь що', 'Kyiv', 'Lviv', 'Kharkiv')
     questions_listmodel.form_list.append(frm)
     frm = Question('Дім', 'house', 'horse', 'hurry', 'hour')
     questions_listmodel.form_list.append(frm)
@@ -30,8 +30,9 @@ def testlist():
     frm = Question('Число', 'number', 'digit', 'amount', 'summary')
     questions_listmodel.form_list.append(frm)
 
-######################################     Проведення тесту    #############################################
 
+######################################     Проведення тесту    #############################################
+'''Підключення всіх екранів до тесту'''
 def set_card():
     win_card.resize(card_width, card_height)
     win_card.move(300, 300)
@@ -51,7 +52,11 @@ def show_card():
 def show_random():
     ''' показ випадковго запитання '''
     global frm_card 
-    frm_card = random_AnswerCheck(questions_listmodel, lb_Question, radio_list, lb_Correct, lb_Result)
+    frm_card = random_AnswerCheck(questions_listmodel, 
+                                  lb_Question, 
+                                  radio_list, 
+                                  lb_Correct, 
+                                  lb_Result)
     
     frm_card.show()
     show_question()
@@ -84,6 +89,7 @@ def edit_question(index):
         frm_edit.change(frm)
         frm_edit.show()
 
+'''Наступного разу! Py_15'''
 def add_form():
     ''' нове запитання '''
     questions_listmodel.insertRows() 
@@ -115,10 +121,6 @@ def connects():
     btn_Menu.clicked.connect(back_to_menu) 
     timer.timeout.connect(show_card) 
     btn_Sleep.clicked.connect(sleep_card) 
-
-app.setStyleSheet('''QWidget{
-                  font-size: 30px;
-}''')
 
 testlist()
 set_card()

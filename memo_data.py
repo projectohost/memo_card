@@ -7,6 +7,7 @@ new_answer_templ = 'Нова відповідь'
 text_wrong = 'Неправильно'
 text_correct = 'Правильно'
 
+'''Цей клас зберігає інформацію про запитання, включаючи саме запитання, правильну відповідь та три неправильні варіанти.'''
 class Question():
     ''' Збереження інформації про запитання'''
     def __init__(self, question=new_quest_templ, 
@@ -27,6 +28,7 @@ class Question():
     def got_wrong(self):
         self.attempts += 1
 
+'''Цей клас відповідає за відображення всіх віджетів, пов'язаних із запитанням.'''
 class QuestionView():   # відображення всіх віджетів, що стосуються запитання
     def __init__(self, frm_model, question, 
                  answer, wrong_answer1, wrong_answer2, 
@@ -49,6 +51,7 @@ class QuestionView():   # відображення всіх віджетів, щ
         self.wrong_answer2.setText(self.frm_model.wrong_answer2)
         self.wrong_answer3.setText(self.frm_model.wrong_answer3)
 
+'''можливість редагувати запитання та відповіді.'''
 class QuestionEdit(QuestionView):
     def save_question(self):
         ''' зберігає текст запитання '''
@@ -72,32 +75,39 @@ class QuestionEdit(QuestionView):
 
 class AnswerCheck(QuestionView):
     
-    def __init__(self, frm_model, question, answer, wrong_answer1, wrong_answer2, wrong_answer3, showed_answer, result):
+    def __init__(self, frm_model, question, answer, wrong_answer1, wrong_answer2, 
+                 wrong_answer3, showed_answer, result):
         super().__init__(frm_model, question, answer, wrong_answer1, wrong_answer2, wrong_answer3)
         self.showed_answer = showed_answer
         self.result = result
+
     def check(self):
         if self.answer.isChecked():
-            # ответ верный, запишем и отразим в статистике
-            self.result.setText(text_correct) # надпись "верно" или "неверно"
-            self.showed_answer.setText(self.frm_model.answer) # пишем сам текст ответа в соотв. виджете 
-            self.frm_model.got_right() # обновить статистику, добавив один верный ответ
+            # Якщо вибрана відповідь правильна
+            self.result.setText(text_correct) # підпис правильно/неправильно
+            self.showed_answer.setText(self.frm_model.answer) # правильна відповідь запитання (незалежно чи правильно/неправильно)
+            self.frm_model.got_right() # зараховуємо як правильне
         else:
             # ответ неверный, запишем и отразим в статистике
-            self.result.setText(text_wrong) # надпись "верно" или "неверно"
-            self.showed_answer.setText(self.frm_model.answer) # пишем сам текст ответа в соотв. виджете 
-            self.frm_model.got_wrong() # обновить статистику, добавив неверный ответ
+            self.result.setText(text_wrong) # підпис правильно/неправильно
+            self.showed_answer.setText(self.frm_model.answer) # правильна відповідь запитання (незалежно правильно/неправильно)
+            self.frm_model.got_wrong() # зараховуємо як неправильне
             
+
+'''Показує запитання у списку меню'''
 class QuestionListModel(QAbstractListModel):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.form_list = []
+
     def rowCount(self, index):
         return len(self.form_list)
+    
     def data(self, index, role):
         if role == Qt.DisplayRole:
             form = self.form_list[index.row()]
             return form.question
+        
     def insertRows(self, parent=QModelIndex()):
         position = len(self.form_list)
         self.beginInsertRows(parent, position, position) 
@@ -105,6 +115,7 @@ class QuestionListModel(QAbstractListModel):
         self.endInsertRows() 
         QModelIndex()
         return True 
+    
     def removeRows(self, position, parent=QModelIndex()):
         self.beginRemoveRows(parent, position, position) 
         self.form_list.pop(position) 

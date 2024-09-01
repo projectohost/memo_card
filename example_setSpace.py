@@ -14,7 +14,7 @@ class MyWidget(QWidget):
         layout.addWidget(button2)
         layout.addWidget(button3)
 
-        layout.setSpacing(50)
+        layout.setSpacing(5)
 
 
 
